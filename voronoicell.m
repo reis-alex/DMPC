@@ -15,7 +15,7 @@ dt      = delaunayTriangulation(interp);
 [V,R_v] = voronoiDiagram(dt);
 jj = 1;
 
-% generate box
+% generate box - if we want to constrain Voronoi
 Vbox = [];
 Vbox = [Vbox; [actual_robot(1,:,1)  actual_robot(2,:,1)] + 1*[+0 +0.5]];
 Vbox = [Vbox; [actual_robot(1,:,1)  actual_robot(2,:,1)] + 1*[-0 -0.5]];
@@ -25,8 +25,7 @@ box = Polyhedron('V',Vbox);
 
 vert = V([R_v{1}(:)],:);
 voro = Polyhedron('V',vert(~isinf(vert(:,1)),:));
-% voro{i}(jj) = voro{i}(jj).intersect(Xc);
-voro = voro.intersect(box);
+% voro = voro.intersect(box);
 voro.minHRep();
 
 clear interp_x interp_y interp V R_v dt sym vert j jj Vbox box
